@@ -508,7 +508,7 @@ export default function HomePage() {
                 style={{ background: 'var(--surface-terminal)' }}
               >
                 {recentActivity.length > 0 ? recentActivity.slice(0, 12).map((entry, i) => (
-                  <div key={entry.id} className="terminal-line flex items-start gap-2 group">
+                  <div key={`${entry.id}-${i}`} className="terminal-line flex items-start gap-2 group">
                     <span className="text-muted-foreground/40 font-mono text-[10px] w-5 text-right shrink-0 mt-px select-none">
                       {String(i + 1).padStart(2, '0')}
                     </span>
