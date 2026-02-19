@@ -1,6 +1,4 @@
 import { execSync } from 'child_process'
-import { existsSync, readFileSync } from 'fs'
-import { join } from 'path'
 import os from 'os'
 import type { ActivityEntry } from '@/types'
 import { PageHeader } from '@/components/page-header'
@@ -129,20 +127,78 @@ export default function HomePage() {
   const memData = (statusData?.memory ?? {}) as Record<string, unknown>
   const memoryFiles = (memData.files ?? 0) as number
 
-  // Tokens from recent session
-  const latestSession = (recentSessions[0] ?? {}) as Record<string, unknown>
-  const recentTokens = (latestSession.totalTokens ?? 0) as number
-
   const cpuPct = cpuPercent
   const memPct = Math.min(Math.round((usedMemMb / (Math.round(totalMem / 1024 / 1024))) * 100), 100)
 
-  // Activity from jsonl file (still read from disk — no CLI command for this)
-  const activityPath = join(process.cwd(), 'data', 'activity.jsonl')
+  // Activity from live OpenClaw sessions (same logic as /api/activity)
   let recentActivity: ActivityEntry[] = []
-  if (existsSync(activityPath)) {
-    const raw = readFileSync(activityPath, 'utf-8')
-    recentActivity = raw.split('\n').filter(Boolean).map(l => JSON.parse(l)).slice(0, 14)
+  try {
+    const sessData = runCLI('openclaw sessions list --json --limit 50 2>/dev/null') as {
+      sessions?: Array<{
+        key: string; kind: string; updatedAt: number; sessionId: string
+        model?: string; totalTokens?: number; inputTokens?: number; outputTokens?: number
+      }>
+    } | null
+    const sessions = sessData?.sessions ?? []
+    for (const sess of sessions) {
+      const key = sess.key || ''
+      const ts = new Date(sess.updatedAt).toISOString()
+      let type: ActivityEntry['type'] = 'message'
+      let channel: ActivityEntry['channel'] = 'terminal'
+      let summary = ''
+      if (key.includes('cron')) {
+        type = 'cron'; channel = 'cron'
+        summary = `Cron job ${key.split('cron:')[1]?.slice(0, 8) || 'unknown'}`
+      } else if (key.includes('spawn')) {
+        type = 'task'; channel = 'terminal'
+        summary = `Sub-agent: ${key.split('spawn:')[1] || 'subagent'}`
+      } else if (key.includes('telegram')) {
+        type = 'message'; channel = 'telegram'; summary = 'Telegram conversation'
+      } else if (key.includes('discord')) {
+        type = 'message'; channel = 'discord'; summary = 'Discord conversation'
+      } else if (key.includes('imessage')) {
+        type = 'message'; channel = 'imessage'; summary = 'iMessage conversation'
+      } else if (key === 'agent:main:main') {
+        type = 'message'; channel = 'telegram'; summary = 'Main session (Telegram)'
+      } else {
+        summary = `Session: ${key}`
+      }
+      const tokens = sess.totalTokens || ((sess.inputTokens || 0) + (sess.outputTokens || 0))
+      recentActivity.push({
+        id: sess.sessionId || key,
+        timestamp: ts,
+        type, channel, summary,
+        status: 'success',
+        agentId: key.includes('agent:main') ? 'main' : key.split(':')[1],
+        tokensUsed: tokens || undefined,
+        details: `Model: ${sess.model || 'unknown'} | Tokens: ${tokens.toLocaleString()}`,
+      })
+    }
+    // Also add cron job entries
+    const cronData = runCLI('openclaw cron list --json 2>/dev/null') as {
+      jobs?: Array<{ id: string; name?: string; enabled: boolean; schedule?: { kind: string; expr?: string }; lastRunAt?: string; lastRunStatus?: string }>
+    } | null
+    for (const job of cronData?.jobs ?? []) {
+      if (job.lastRunAt) {
+        recentActivity.push({
+          id: `cron_${job.id}`,
+          timestamp: job.lastRunAt,
+          type: 'cron', channel: 'cron',
+          summary: `Cron: ${job.name || job.id}`,
+          status: job.lastRunStatus === 'error' ? 'error' : 'success',
+          details: `Schedule: ${job.schedule?.expr || job.schedule?.kind || 'unknown'} | Enabled: ${job.enabled}`,
+        })
+      }
+    }
+    // Sort descending and take first 14
+    recentActivity.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+    recentActivity = recentActivity.slice(0, 14)
+  } catch {
+    // fall through with empty array
   }
+
+  // Total tokens from all recent sessions
+  const recentTokens = recentActivity.reduce((sum, e) => sum + (e.tokensUsed ?? 0), 0)
 
   // Channel type distribution from recent activity
   const typeCounts = recentActivity.reduce<Record<string, number>>((acc, e) => {
