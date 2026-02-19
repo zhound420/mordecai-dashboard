@@ -33,11 +33,14 @@ interface TopStatusBarProps {
 
 export function TopStatusBar({ initialStatus }: TopStatusBarProps) {
   const { resolvedTheme } = useTheme()
-  const isDark = resolvedTheme === 'dark'
+  const [mounted, setMounted] = useState(false)
+  const isDark = mounted ? resolvedTheme === 'dark' : true
   const [status, setStatus] = useState<SystemStatus | null>(initialStatus ?? null)
   const [uptime, setUptime] = useState(initialStatus?.uptime ?? 0)
   const [heartbeat, setHeartbeat] = useState(false)
   const [lastPingAgo, setLastPingAgo] = useState(0)
+
+  useEffect(() => setMounted(true), [])
 
   useEffect(() => {
     // Tick uptime every second
