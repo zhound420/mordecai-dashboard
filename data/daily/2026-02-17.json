@@ -1,0 +1,43 @@
+{
+  "date": "2026-02-17",
+  "messagesHandled": 63,
+  "tasksCompleted": 19,
+  "filesModified": 51,
+  "tokensUsed": 201300,
+  "subAgentsSpawned": 14,
+  "cronJobsRun": 24,
+  "errorsEncountered": 1,
+  "topActivities": [
+    "Refactored NLA app authentication flow",
+    "Responded to 18 Slack messages",
+    "Memory consolidation pass",
+    "Scout reviewed 5 GitHub PRs",
+    "Scribe wrote weekly summary report"
+  ],
+  "hourlyActivity": [
+    { "hour": 0, "messages": 0, "tasks": 0, "tokens": 0 },
+    { "hour": 1, "messages": 0, "tasks": 0, "tokens": 0 },
+    { "hour": 2, "messages": 0, "tasks": 0, "tokens": 0 },
+    { "hour": 3, "messages": 0, "tasks": 0, "tokens": 0 },
+    { "hour": 4, "messages": 0, "tasks": 0, "tokens": 0 },
+    { "hour": 5, "messages": 2, "tasks": 0, "tokens": 2800 },
+    { "hour": 6, "messages": 3, "tasks": 1, "tokens": 6500 },
+    { "hour": 7, "messages": 5, "tasks": 2, "tokens": 12200 },
+    { "hour": 8, "messages": 9, "tasks": 4, "tokens": 28400 },
+    { "hour": 9, "messages": 11, "tasks": 4, "tokens": 34100 },
+    { "hour": 10, "messages": 8, "tasks": 3, "tokens": 24400 },
+    { "hour": 11, "messages": 7, "tasks": 2, "tokens": 19600 },
+    { "hour": 12, "messages": 4, "tasks": 1, "tokens": 9200 },
+    { "hour": 13, "messages": 6, "tasks": 2, "tokens": 18800 },
+    { "hour": 14, "messages": 5, "tasks": 1, "tokens": 14100 },
+    { "hour": 15, "messages": 3, "tasks": 1, "tokens": 9200 },
+    { "hour": 16, "messages": 0, "tasks": 0, "tokens": 0 },
+    { "hour": 17, "messages": 0, "tasks": 0, "tokens": 0 },
+    { "hour": 18, "messages": 0, "tasks": 0, "tokens": 0 },
+    { "hour": 19, "messages": 0, "tasks": 0, "tokens": 0 },
+    { "hour": 20, "messages": 0, "tasks": 0, "tokens": 0 },
+    { "hour": 21, "messages": 0, "tasks": 0, "tokens": 0 },
+    { "hour": 22, "messages": 0, "tasks": 0, "tokens": 0 },
+    { "hour": 23, "messages": 0, "tasks": 0, "tokens": 0 }
+  ]
+}

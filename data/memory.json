@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "filename": "MEMORY.md",
+      "title": "Core Memory",
+      "content": "# Mordecai Core Memory\n\n## Identity\n- Name: Mordecai\n- Role: Personal AI agent and assistant\n- Tagline: 'Your raven is watching'\n\n## Key Projects\n- NLA App (port 3000) — primary web application\n- Mordecai Dashboard (port 3100) — this dashboard\n\n## Preferences\n- Dark mode only\n- Purple/indigo accent colors\n- TypeScript over JavaScript\n- Bun as package manager (when available)\n\n## Patterns\n- Always check existing patterns before suggesting new ones\n- Prefer editing files over creating new ones\n- Keep solutions minimal and focused\n\n## Important Files\n- `/data/activity.jsonl` — activity log\n- `/data/status.json` — system status\n- `/data/daily/YYYY-MM-DD.json` — daily summaries",
+      "lastModified": "2026-02-18T17:15:00Z",
+      "sizeBytes": 612,
+      "tags": ["core", "identity", "preferences"]
+    },
+    {
+      "filename": "patterns.md",
+      "title": "Code Patterns",
+      "content": "# Code Patterns\n\n## Next.js 15\n- Use App Router (not Pages Router)\n- Tailwind v4 — no tailwind.config.js needed\n- shadcn/ui for components\n\n## TypeScript\n- Define interfaces in `/types/index.ts`\n- Use strict mode\n- Prefer `type` for unions, `interface` for objects\n\n## API Routes\n- Use `route.ts` in `app/api/` directories\n- Return `NextResponse.json()`\n- Handle errors with try/catch\n\n## Data Layer\n- Read from `/data/` directory\n- JSONL for append-only logs\n- JSON for structured data",
+      "lastModified": "2026-02-18T17:15:00Z",
+      "sizeBytes": 488,
+      "tags": ["nextjs", "typescript", "patterns"]
+    },
+    {
+      "filename": "debugging.md",
+      "title": "Debugging Notes",
+      "content": "# Debugging Notes\n\n## npm Cache Issues\n- If npm EACCES errors: set cache to `/tmp/npm-cache`\n- `npm config set cache /tmp/npm-cache`\n\n## Next.js Issues\n- Tailwind v4 doesn't need `tailwind.config.js`\n- shadcn components auto-import from `@/components/ui/`\n\n## Port Conflicts\n- Port 3000: NLA app\n- Port 3100: Mordecai Dashboard\n- Always specify port explicitly",
+      "lastModified": "2026-02-18T17:15:00Z",
+      "sizeBytes": 342,
+      "tags": ["debugging", "npm", "ports"]
+    },
+    {
+      "filename": "agents.md",
+      "title": "Agent Roster",
+      "content": "# Agent Roster\n\n## Active Agents\n- **Hex** — Primary engineer, code/debug/architect\n- **Scout** — Code reviewer, PR analysis\n- **Scribe** — Writer, docs/summaries/reports\n- **Sentinel** — Monitor, alerts/anomalies\n- **Analyst** — Data analyst, metrics/insights\n- **Ghost** — Stealth operator, background tasks\n\n## Invocation\n- Agents are spawned via Task tool in Claude Code\n- Each has specific capabilities and prompts\n- Track usage in `/data/agents.json`",
+      "lastModified": "2026-02-17T10:00:00Z",
+      "sizeBytes": 401,
+      "tags": ["agents", "roster", "capabilities"]
+    },
+    {
+      "filename": "context-buffer.md",
+      "title": "Context Buffer",
+      "content": "# Context Buffer Status\n\n## Current Session\n- Session started: 2026-02-18T17:00:00Z\n- Messages in context: 24\n- Estimated tokens used: ~28,400\n- Remaining budget: ~96,600\n\n## Buffer Management\n- Auto-compression at 80% capacity\n- Summary written to MEMORY.md on compression\n- Full context archived to daily log",
+      "lastModified": "2026-02-18T17:55:00Z",
+      "sizeBytes": 298,
+      "tags": ["context", "buffer", "session"]
+    }
+  ],
+  "totalSizeBytes": 2141,
+  "lastConsolidated": "2026-02-18T16:30:00Z"
+}

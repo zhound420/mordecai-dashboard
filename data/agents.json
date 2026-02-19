@@ -1,0 +1,218 @@
+[
+  {
+    "id": "hex",
+    "name": "Hex",
+    "description": "Primary engineer — writes code, debugs, architects solutions",
+    "capabilities": ["code", "debug", "architecture", "refactor", "test"],
+    "status": "idle",
+    "lastUsed": "2026-02-18T17:52:14Z",
+    "tasksCompleted": 284,
+    "successRate": 97.2,
+    "recentTasks": [
+      {
+        "id": "hex_t001",
+        "timestamp": "2026-02-18T17:52:14Z",
+        "description": "Scaffolded Mordecai Dashboard Next.js app",
+        "status": "success",
+        "durationMs": 38400,
+        "tokensUsed": 4821
+      },
+      {
+        "id": "hex_t002",
+        "timestamp": "2026-02-18T15:22:18Z",
+        "description": "Debugged auth middleware in NLA app",
+        "status": "success",
+        "durationMs": 44200,
+        "tokensUsed": 12040
+      },
+      {
+        "id": "hex_t003",
+        "timestamp": "2026-02-17T14:10:00Z",
+        "description": "Refactored database connection pooling",
+        "status": "success",
+        "durationMs": 31200,
+        "tokensUsed": 8820
+      }
+    ]
+  },
+  {
+    "id": "scout",
+    "name": "Scout",
+    "description": "Code reviewer — analyzes PRs, flags issues, ensures quality",
+    "capabilities": ["code-review", "pr-analysis", "security-scan", "lint"],
+    "status": "idle",
+    "lastUsed": "2026-02-18T17:30:22Z",
+    "tasksCompleted": 156,
+    "successRate": 99.4,
+    "recentTasks": [
+      {
+        "id": "scout_t001",
+        "timestamp": "2026-02-18T17:28:10Z",
+        "description": "Reviewed PR #142 — auth improvements",
+        "status": "success",
+        "durationMs": 22100,
+        "tokensUsed": 8432
+      },
+      {
+        "id": "scout_t002",
+        "timestamp": "2026-02-17T09:40:00Z",
+        "description": "Reviewed PR #138 — database schema migration",
+        "status": "success",
+        "durationMs": 18400,
+        "tokensUsed": 7120
+      },
+      {
+        "id": "scout_t003",
+        "timestamp": "2026-02-16T15:22:00Z",
+        "description": "Reviewed PR #134 — API rate limiting",
+        "status": "success",
+        "durationMs": 24800,
+        "tokensUsed": 9210
+      }
+    ]
+  },
+  {
+    "id": "scribe",
+    "name": "Scribe",
+    "description": "Writer — drafts docs, summaries, changelogs, reports",
+    "capabilities": ["documentation", "summarization", "changelog", "reports", "emails"],
+    "status": "idle",
+    "lastUsed": "2026-02-18T16:55:44Z",
+    "tasksCompleted": 98,
+    "successRate": 100.0,
+    "recentTasks": [
+      {
+        "id": "scribe_t001",
+        "timestamp": "2026-02-18T16:40:12Z",
+        "description": "Wrote daily summary report for Feb 17",
+        "status": "success",
+        "durationMs": 18400,
+        "tokensUsed": 5612
+      },
+      {
+        "id": "scribe_t002",
+        "timestamp": "2026-02-18T13:44:33Z",
+        "description": "Updated changelog for v1.4.2",
+        "status": "success",
+        "durationMs": 8100,
+        "tokensUsed": 2840
+      },
+      {
+        "id": "scribe_t003",
+        "timestamp": "2026-02-17T11:20:00Z",
+        "description": "Drafted architecture decision record for caching layer",
+        "status": "success",
+        "durationMs": 22400,
+        "tokensUsed": 6900
+      }
+    ]
+  },
+  {
+    "id": "sentinel",
+    "name": "Sentinel",
+    "description": "Monitor — watches alerts, anomalies, and system health",
+    "capabilities": ["monitoring", "alerting", "anomaly-detection", "incident-response"],
+    "status": "active",
+    "lastUsed": "2026-02-18T16:22:33Z",
+    "tasksCompleted": 441,
+    "successRate": 98.6,
+    "recentTasks": [
+      {
+        "id": "sentinel_t001",
+        "timestamp": "2026-02-18T16:18:01Z",
+        "description": "Investigated memory alert — identified as GC spike",
+        "status": "success",
+        "durationMs": 15600,
+        "tokensUsed": 6744
+      },
+      {
+        "id": "sentinel_t002",
+        "timestamp": "2026-02-17T22:15:00Z",
+        "description": "Responded to high latency alert on API gateway",
+        "status": "success",
+        "durationMs": 28400,
+        "tokensUsed": 9120
+      },
+      {
+        "id": "sentinel_t003",
+        "timestamp": "2026-02-17T14:40:00Z",
+        "description": "Monitored deploy of v1.4.2 — no issues detected",
+        "status": "success",
+        "durationMs": 12200,
+        "tokensUsed": 3410
+      }
+    ]
+  },
+  {
+    "id": "analyst",
+    "name": "Analyst",
+    "description": "Data analyst — crunches numbers, generates insights, builds reports",
+    "capabilities": ["data-analysis", "metrics", "visualization", "forecasting"],
+    "status": "idle",
+    "lastUsed": "2026-02-18T14:30:12Z",
+    "tasksCompleted": 62,
+    "successRate": 96.8,
+    "recentTasks": [
+      {
+        "id": "analyst_t001",
+        "timestamp": "2026-02-18T14:30:12Z",
+        "description": "Generated weekly performance metrics report",
+        "status": "success",
+        "durationMs": 28400,
+        "tokensUsed": 9201
+      },
+      {
+        "id": "analyst_t002",
+        "timestamp": "2026-02-14T10:00:00Z",
+        "description": "Analyzed token usage trends for past 30 days",
+        "status": "success",
+        "durationMs": 34200,
+        "tokensUsed": 11820
+      },
+      {
+        "id": "analyst_t003",
+        "timestamp": "2026-02-10T09:00:00Z",
+        "description": "Monthly cost breakdown and efficiency report",
+        "status": "success",
+        "durationMs": 41200,
+        "tokensUsed": 14900
+      }
+    ]
+  },
+  {
+    "id": "ghost",
+    "name": "Ghost",
+    "description": "Stealth operator — background tasks, silent automation, cleanup",
+    "capabilities": ["background-tasks", "automation", "cleanup", "batch-processing"],
+    "status": "offline",
+    "lastUsed": "2026-02-18T15:09:00Z",
+    "tasksCompleted": 187,
+    "successRate": 94.1,
+    "recentTasks": [
+      {
+        "id": "ghost_t001",
+        "timestamp": "2026-02-18T15:09:00Z",
+        "description": "Stealth task retry — completed on second attempt",
+        "status": "success",
+        "durationMs": 18200,
+        "tokensUsed": 4100
+      },
+      {
+        "id": "ghost_t002",
+        "timestamp": "2026-02-18T15:10:00Z",
+        "description": "Stealth task — timed out after 30s",
+        "status": "error",
+        "durationMs": 30000,
+        "tokensUsed": 1200
+      },
+      {
+        "id": "ghost_t003",
+        "timestamp": "2026-02-17T03:00:00Z",
+        "description": "Nightly cleanup: removed 847 temp files",
+        "status": "success",
+        "durationMs": 8400,
+        "tokensUsed": 1820
+      }
+    ]
+  }
+]

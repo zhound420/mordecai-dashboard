@@ -1,0 +1,141 @@
+{
+  "config": {
+    "agentName": "Mordecai",
+    "version": "1.4.2",
+    "environment": "production",
+    "timezone": "America/Los_Angeles",
+    "logLevel": "info",
+    "maxConcurrentTasks": 6,
+    "features": {
+      "slackIntegration": true,
+      "githubIntegration": true,
+      "discordIntegration": false,
+      "memoryConsolidation": true,
+      "autoHeartbeat": true,
+      "cronJobs": true,
+      "subAgents": true,
+      "tokenTracking": true
+    }
+  },
+  "channels": [
+    {
+      "channel": "slack",
+      "status": "connected",
+      "lastPing": "2026-02-18T17:55:00Z",
+      "latencyMs": 42,
+      "messagesPerHour": 8
+    },
+    {
+      "channel": "terminal",
+      "status": "connected",
+      "lastPing": "2026-02-18T17:55:00Z",
+      "latencyMs": 2,
+      "messagesPerHour": 12
+    },
+    {
+      "channel": "api",
+      "status": "connected",
+      "lastPing": "2026-02-18T17:55:00Z",
+      "latencyMs": 18,
+      "messagesPerHour": 24
+    },
+    {
+      "channel": "cron",
+      "status": "connected",
+      "lastPing": "2026-02-18T17:00:00Z",
+      "latencyMs": 0,
+      "messagesPerHour": 4
+    },
+    {
+      "channel": "discord",
+      "status": "disconnected",
+      "lastPing": "2026-02-10T12:00:00Z",
+      "latencyMs": 0,
+      "messagesPerHour": 0
+    },
+    {
+      "channel": "web",
+      "status": "unknown",
+      "lastPing": "2026-02-18T16:00:00Z",
+      "latencyMs": 0,
+      "messagesPerHour": 0
+    }
+  ],
+  "cronJobs": [
+    {
+      "id": "hourly-heartbeat",
+      "name": "Hourly Heartbeat",
+      "schedule": "0 * * * *",
+      "description": "Ping all active channels and log system health",
+      "lastRun": "2026-02-18T17:00:00Z",
+      "nextRun": "2026-02-18T18:00:00Z",
+      "lastStatus": "success",
+      "totalRuns": 2184,
+      "successRate": 99.8
+    },
+    {
+      "id": "daily-sync",
+      "name": "Daily Sync",
+      "schedule": "0 */4 * * *",
+      "description": "Sync activity log and flush pending writes to disk",
+      "lastRun": "2026-02-18T17:40:00Z",
+      "nextRun": "2026-02-18T21:40:00Z",
+      "lastStatus": "success",
+      "totalRuns": 546,
+      "successRate": 100.0
+    },
+    {
+      "id": "memory-consolidation",
+      "name": "Memory Consolidation",
+      "schedule": "30 */2 * * *",
+      "description": "Consolidate memory files and prune stale context",
+      "lastRun": "2026-02-18T16:30:00Z",
+      "nextRun": "2026-02-18T18:30:00Z",
+      "lastStatus": "success",
+      "totalRuns": 273,
+      "successRate": 99.3
+    },
+    {
+      "id": "github-sync",
+      "name": "GitHub Sync",
+      "schedule": "*/15 * * * *",
+      "description": "Fetch new PRs, issues, and notifications from GitHub",
+      "lastRun": "2026-02-18T15:40:00Z",
+      "nextRun": "2026-02-18T15:55:00Z",
+      "lastStatus": "success",
+      "totalRuns": 8736,
+      "successRate": 98.2
+    },
+    {
+      "id": "token-report",
+      "name": "Token Report",
+      "schedule": "0 * * * *",
+      "description": "Log hourly token usage to daily summary file",
+      "lastRun": "2026-02-18T14:40:00Z",
+      "nextRun": "2026-02-18T15:40:00Z",
+      "lastStatus": "success",
+      "totalRuns": 2184,
+      "successRate": 100.0
+    },
+    {
+      "id": "nightly-cleanup",
+      "name": "Nightly Cleanup",
+      "schedule": "0 3 * * *",
+      "description": "Remove temp files, compress old logs, archive daily data",
+      "lastRun": "2026-02-18T03:00:00Z",
+      "nextRun": "2026-02-19T03:00:00Z",
+      "lastStatus": "success",
+      "totalRuns": 91,
+      "successRate": 96.7
+    }
+  ],
+  "tokenUsage": [
+    { "date": "2026-02-12", "input": 98200, "output": 41800, "total": 140000, "cost": 1.82 },
+    { "date": "2026-02-13", "input": 112400, "output": 48200, "total": 160600, "cost": 2.09 },
+    { "date": "2026-02-14", "input": 84100, "output": 35900, "total": 120000, "cost": 1.56 },
+    { "date": "2026-02-15", "input": 68200, "output": 29800, "total": 98000, "cost": 1.27 },
+    { "date": "2026-02-16", "input": 74200, "output": 31800, "total": 106000, "cost": 1.38 },
+    { "date": "2026-02-17", "input": 140910, "output": 60390, "total": 201300, "cost": 2.62 },
+    { "date": "2026-02-18", "input": 89915, "output": 38535, "total": 128450, "cost": 1.67 }
+  ]
+}
