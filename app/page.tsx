@@ -537,7 +537,7 @@ export default function HomePage() {
                 )) : (
                   // Show real gateway info when no activity log exists
                   [
-                    { text: `gateway connected · ${gatewaySelf.host ?? 'Mordecai'} · v${version}`, color: 'text-green-400/70', prefix: '[SYS]', prefixColor: 'text-green-400' },
+                    { text: `gateway connected · ${gatewaySelf.host ?? process.env.NEXT_PUBLIC_AGENT_NAME ?? 'agent'} · v${version}`, color: 'text-green-400/70', prefix: '[SYS]', prefixColor: 'text-green-400' },
                     { text: `channels: ${activeChannels.map(c => channelLabels[c] ?? c).join(', ') || 'none active'}`, color: 'text-foreground/70', prefix: '[NET]', prefixColor: 'text-blue-400' },
                     { text: `memory: ${memoryFiles} files · ${(memData.chunks ?? 0)} chunks · backend: ${memData.backend ?? 'builtin'}`, color: 'text-foreground/70', prefix: '[MEM]', prefixColor: 'text-teal-400' },
                     { text: `agents: ${agentsList.map(a => a.id).join(', ')}`, color: 'text-foreground/70', prefix: '[AGT]', prefixColor: 'text-purple-400' },
@@ -558,7 +558,7 @@ export default function HomePage() {
                   ))
                 )}
                 <div className="terminal-line flex items-center gap-2 blink-cursor text-[10px] text-muted-foreground/50 pl-7 font-mono">
-                  mordecai@system:~$
+                  {(process.env.NEXT_PUBLIC_AGENT_NAME ?? 'agent').toLowerCase()}@system:~$
                 </div>
               </div>
             </CardContent>

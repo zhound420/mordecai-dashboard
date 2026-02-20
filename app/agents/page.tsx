@@ -133,7 +133,7 @@ export default function SubAgentsPage() {
 
   return (
     <div className="flex flex-col h-full">
-      <PageHeader title="Sub-Agents" description="Mordecai's specialized squad">
+      <PageHeader title="Sub-Agents" description={`${process.env.NEXT_PUBLIC_AGENT_NAME ?? 'Agent'}'s specialized squad`}>
         <div className="flex items-center gap-3 text-xs text-muted-foreground">
           <div className="flex items-center gap-1.5">
             <Activity className="w-3.5 h-3.5" />

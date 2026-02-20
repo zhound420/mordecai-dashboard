@@ -11,9 +11,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const agentName = process.env.NEXT_PUBLIC_AGENT_NAME ?? 'Agent'
+const agentTagline = process.env.NEXT_PUBLIC_AGENT_TAGLINE ?? 'Your AI assistant'
+
 export const metadata: Metadata = {
-  title: "Mordecai Dashboard 🪶",
-  description: "Your raven is watching",
+  title: `${agentName} Dashboard`,
+  description: agentTagline,
 };
 
 export default function RootLayout({

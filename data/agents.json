@@ -12,7 +12,7 @@
       {
         "id": "hex_t001",
         "timestamp": "2026-02-18T17:52:14Z",
-        "description": "Scaffolded Mordecai Dashboard Next.js app",
+        "description": "Scaffolded OpenClaw Agent Dashboard Next.js app",
         "status": "success",
         "durationMs": 38400,
         "tokensUsed": 4821

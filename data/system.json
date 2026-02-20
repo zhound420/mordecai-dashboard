@@ -1,6 +1,6 @@
 {
   "config": {
-    "agentName": "Mordecai",
+    "agentName": "Agent",
     "version": "1.4.2",
     "environment": "production",
     "timezone": "America/Los_Angeles",

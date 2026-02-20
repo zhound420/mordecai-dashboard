@@ -65,8 +65,8 @@ export function Sidebar() {
         </div>
         {!collapsed && (
           <div className="min-w-0">
-            <div className="text-sm font-semibold text-foreground tracking-wide">Mordecai</div>
-            <div className="text-[10px] text-muted-foreground truncate">Your raven is watching</div>
+            <div className="text-sm font-semibold text-foreground tracking-wide">{process.env.NEXT_PUBLIC_AGENT_NAME ?? 'Agent'}</div>
+            <div className="text-[10px] text-muted-foreground truncate">{process.env.NEXT_PUBLIC_AGENT_TAGLINE ?? 'Your AI assistant'}</div>
           </div>
         )}
       </div>

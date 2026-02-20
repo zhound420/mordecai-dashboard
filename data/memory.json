@@ -3,7 +3,7 @@
     {
       "filename": "MEMORY.md",
       "title": "Core Memory",
-      "content": "# Mordecai Core Memory\n\n## Identity\n- Name: Mordecai\n- Role: Personal AI agent and assistant\n- Tagline: 'Your raven is watching'\n\n## Key Projects\n- NLA App (port 3000) — primary web application\n- Mordecai Dashboard (port 3100) — this dashboard\n\n## Preferences\n- Dark mode only\n- Purple/indigo accent colors\n- TypeScript over JavaScript\n- Bun as package manager (when available)\n\n## Patterns\n- Always check existing patterns before suggesting new ones\n- Prefer editing files over creating new ones\n- Keep solutions minimal and focused\n\n## Important Files\n- `/data/activity.jsonl` — activity log\n- `/data/status.json` — system status\n- `/data/daily/YYYY-MM-DD.json` — daily summaries",
+      "content": "# Agent Core Memory\n\n## Identity\n- Name: OpenClaw Agent\n- Role: Personal AI agent and assistant\n\n## Key Projects\n- NLA App (port 3000) — primary web application\n- OpenClaw Agent Dashboard (port 3100) — this dashboard\n\n## Preferences\n- Dark mode only\n- Purple/indigo accent colors\n- TypeScript over JavaScript\n- Bun as package manager (when available)\n\n## Patterns\n- Always check existing patterns before suggesting new ones\n- Prefer editing files over creating new ones\n- Keep solutions minimal and focused\n\n## Important Files\n- `/data/activity.jsonl` — activity log\n- `/data/status.json` — system status\n- `/data/daily/YYYY-MM-DD.json` — daily summaries",
       "lastModified": "2026-02-18T17:15:00Z",
       "sizeBytes": 612,
       "tags": ["core", "identity", "preferences"]
@@ -19,7 +19,7 @@
     {
       "filename": "debugging.md",
       "title": "Debugging Notes",
-      "content": "# Debugging Notes\n\n## npm Cache Issues\n- If npm EACCES errors: set cache to `/tmp/npm-cache`\n- `npm config set cache /tmp/npm-cache`\n\n## Next.js Issues\n- Tailwind v4 doesn't need `tailwind.config.js`\n- shadcn components auto-import from `@/components/ui/`\n\n## Port Conflicts\n- Port 3000: NLA app\n- Port 3100: Mordecai Dashboard\n- Always specify port explicitly",
+      "content": "# Debugging Notes\n\n## npm Cache Issues\n- If npm EACCES errors: set cache to `/tmp/npm-cache`\n- `npm config set cache /tmp/npm-cache`\n\n## Next.js Issues\n- Tailwind v4 doesn't need `tailwind.config.js`\n- shadcn components auto-import from `@/components/ui/`\n\n## Port Conflicts\n- Port 3000: NLA app\n- Port 3100: OpenClaw Agent Dashboard\n- Always specify port explicitly",
       "lastModified": "2026-02-18T17:15:00Z",
       "sizeBytes": 342,
       "tags": ["debugging", "npm", "ports"]

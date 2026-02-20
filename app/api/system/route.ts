@@ -128,7 +128,7 @@ function buildSystemData(
   const sessionsDefaults = (sessions.defaults ?? {}) as Record<string, unknown>
 
   const config = {
-    agentName: gatewaySelf.host ?? 'Mordecai',
+    agentName: gatewaySelf.host ?? process.env.NEXT_PUBLIC_AGENT_NAME ?? 'Agent',
     version: registry.latestVersion ?? gatewaySelf.version ?? '—',
     environment: gateway.mode ?? 'local',
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
