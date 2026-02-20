@@ -5,7 +5,7 @@ import { PageHeader } from '@/components/page-header'
 import { StatusBadge } from '@/components/status-badge'
 import type { SubAgent } from '@/types'
 import {
-  CheckCircle, Clock, Zap, TrendingUp, Activity, RefreshCw, AlertTriangle
+  CheckCircle, Clock, Zap, TrendingUp, Activity, AlertTriangle
 } from 'lucide-react'
 import { formatDistanceToNow, format } from 'date-fns'
 import { cn } from '@/lib/utils'
@@ -32,6 +32,19 @@ function formatDuration(ms: number): string {
   if (ms < 1000) return `${ms}ms`
   if (ms < 60000) return `${(ms / 1000).toFixed(0)}s`
   return `${(ms / 60000).toFixed(1)}m`
+}
+
+function parseTaskType(sessionKey?: string | null): string {
+  if (!sessionKey) return 'Agent task'
+  if (sessionKey.includes(':cron:')) return 'Cron job'
+  if (sessionKey.includes(':subagent:')) return 'Subagent task'
+  if (sessionKey.includes(':main')) return 'Direct session'
+  return 'Agent task'
+}
+
+function shortModel(model?: string | null): string {
+  if (!model) return ''
+  return model.replace('claude-', '').replace(/-latest$/, '').split('-').slice(0, 2).join('-')
 }
 
 function AgentAvatar({ agentId, size = 'md' }: { agentId: string; size?: 'sm' | 'md' | 'lg' }) {
@@ -90,19 +103,37 @@ function StatusTimeline({ tasks }: { tasks: SubAgent['recentTasks'] }) {
   return (
     <div className="flex items-center gap-1 mt-2">
       {tasks.slice().reverse().map((t, i) => (
-        <div
-          key={t.id}
-          className="flex-1 h-1.5 rounded-full"
-          title={`${t.description} · ${formatDuration(t.durationMs)}`}
-          style={{
-            background: t.status === 'success'
-              ? 'oklch(0.68 0.18 145)'
-              : t.status === 'error'
-                ? 'oklch(0.65 0.22 25)'
-                : 'oklch(0.72 0.16 60)',
-            opacity: 0.4 + (i / tasks.length) * 0.6,
-          }}
-        />
+        <div key={t.id} className="relative flex-1 group/bar">
+          <div
+            className="h-1.5 rounded-full cursor-pointer"
+            style={{
+              background: t.status === 'success'
+                ? 'oklch(0.68 0.18 145)'
+                : t.status === 'error'
+                  ? 'oklch(0.65 0.22 25)'
+                  : 'oklch(0.72 0.16 60)',
+              opacity: 0.4 + (i / tasks.length) * 0.6,
+            }}
+          />
+          {/* Hover tooltip */}
+          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 hidden group-hover/bar:block pointer-events-none">
+            <div className="bg-[#0a0a0f] border border-border/70 rounded-md p-2 text-[10px] font-mono shadow-xl shadow-black/60 min-w-[150px]">
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <div className={cn(
+                  'w-1.5 h-1.5 rounded-full shrink-0',
+                  t.status === 'success' ? 'bg-green-500' : t.status === 'error' ? 'bg-red-500' : 'bg-yellow-500'
+                )} />
+                <span className="text-foreground font-semibold">{parseTaskType(t.sessionKey)}</span>
+              </div>
+              <div className="space-y-0.5 text-muted-foreground/80">
+                <div>{format(new Date(t.timestamp), 'MMM d, HH:mm')}</div>
+                <div>{(t.tokensUsed ?? 0).toLocaleString()} tokens</div>
+                {t.durationMs > 0 && <div>{formatDuration(t.durationMs)}</div>}
+                {t.model && <div className="text-muted-foreground/50">{shortModel(t.model)}</div>}
+              </div>
+            </div>
+          </div>
+        </div>
       ))}
     </div>
   )
@@ -282,18 +313,32 @@ export default function SubAgentsPage() {
                             )}
                           />
                           <div className="flex-1 min-w-0">
-                            <div className="text-[11px] text-foreground/80 truncate">{task.description}</div>
-                            <div className="flex items-center gap-2 mt-0.5">
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-[11px] text-foreground/80">{parseTaskType(task.sessionKey)}</span>
+                              {task.model && (
+                                <span className="text-[9px] px-1 py-0.5 rounded font-mono bg-secondary/60 text-muted-foreground/70">
+                                  {shortModel(task.model)}
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-2 mt-0.5 flex-wrap">
                               <span className="text-[10px] text-muted-foreground font-mono">
                                 {format(new Date(task.timestamp), 'MMM d HH:mm')}
                               </span>
-                              <span className="text-[10px] text-muted-foreground font-mono">
-                                {formatDuration(task.durationMs)}
-                              </span>
+                              {task.durationMs > 0 && (
+                                <span className="text-[10px] text-muted-foreground font-mono">
+                                  {formatDuration(task.durationMs)}
+                                </span>
+                              )}
                               <span className="text-[10px] text-muted-foreground font-mono">
                                 {task.tokensUsed.toLocaleString()} tok
                               </span>
                             </div>
+                            {task.sessionKey && (
+                              <div className="text-[9px] text-muted-foreground/40 font-mono mt-0.5 truncate">
+                                {task.sessionKey}
+                              </div>
+                            )}
                           </div>
                           {task.status === 'error' && (
                             <AlertTriangle className="w-3 h-3 text-red-400 shrink-0 mt-0.5" />
@@ -326,24 +371,38 @@ export default function SubAgentsPage() {
                 .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
                 .slice(0, 10)
                 .map(task => {
-                  const colors = agentColors[task.agentId] ?? agentColors.hex
                   return (
-                    <div key={task.id} className="flex items-center gap-3 px-4 py-2.5 hover:bg-secondary/20 transition-colors">
+                    <div key={task.id} className="relative flex items-center gap-3 px-4 py-2.5 hover:bg-secondary/20 transition-colors group/task">
                       <AgentAvatar agentId={task.agentId} size="sm" />
                       <div className="flex-1 min-w-0">
-                        <span className="text-xs text-foreground/80 truncate block">{task.description}</span>
+                        <span className="text-xs text-foreground/80 truncate block">{parseTaskType(task.sessionKey)}</span>
                         <span className="text-[10px] text-muted-foreground font-mono">
                           @{task.agentName} · {format(new Date(task.timestamp), 'MMM d HH:mm')}
+                          {task.model ? ` · ${shortModel(task.model)}` : ''}
                         </span>
                       </div>
-                      <span className="text-[10px] font-mono text-muted-foreground">{formatDuration(task.durationMs)}</span>
-                      <span className="text-[10px] font-mono text-muted-foreground">{task.tokensUsed.toLocaleString()}</span>
+                      {task.durationMs > 0 && (
+                        <span className="text-[10px] font-mono text-muted-foreground">{formatDuration(task.durationMs)}</span>
+                      )}
+                      <span className="text-[10px] font-mono text-muted-foreground">{task.tokensUsed.toLocaleString()} tok</span>
                       <div
                         className={cn(
                           'w-1.5 h-1.5 rounded-full',
                           task.status === 'success' ? 'bg-green-500' : 'bg-red-500'
                         )}
                       />
+                      {/* Hover tooltip showing session key + model */}
+                      {task.sessionKey && (
+                        <div className="absolute left-4 bottom-full mb-1 z-50 hidden group-hover/task:block pointer-events-none">
+                          <div className="bg-[#0a0a0f] border border-border/70 rounded-md p-2 text-[10px] font-mono shadow-xl shadow-black/60 max-w-xs">
+                            <div className="text-muted-foreground/50 mb-0.5">session key</div>
+                            <div className="text-foreground/80 break-all">{task.sessionKey}</div>
+                            {task.model && (
+                              <div className="text-muted-foreground/60 mt-1">model: {task.model}</div>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )
                 })}

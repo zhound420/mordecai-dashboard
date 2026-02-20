@@ -80,6 +80,8 @@ export interface AgentTask {
   status: ActivityStatus
   durationMs: number
   tokensUsed: number
+  sessionKey?: string
+  model?: string | null
 }
 
 // System / Config types

@@ -82,10 +82,14 @@ function buildAgents(statusData: Record<string, unknown> | null) {
           ? 'Cron job execution'
           : s.key.includes(':main')
             ? 'Direct session interaction'
-            : 'Agent task',
+            : s.key.includes(':subagent:')
+              ? 'Subagent task'
+              : 'Agent task',
         status: isError ? 'error' : 'success' as 'success' | 'error' | 'running',
         durationMs: 0,
         tokensUsed: s.totalTokens ?? 0,
+        sessionKey: s.key,
+        model: s.model ?? null,
       }
     })
 
