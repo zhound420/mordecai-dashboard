@@ -204,7 +204,7 @@ export default function SubAgentsPage() {
               <TrendingUp className="w-3.5 h-3.5 text-blue-400" />
               <span className="text-[11px] text-muted-foreground">Avg success</span>
             </div>
-            <div className="text-xl font-bold font-mono text-blue-400">{avgSuccessRate.toFixed(1)}%</div>
+            <div className="text-xl font-bold font-mono text-muted-foreground/50">—</div>
           </div>
           <div className="rounded-lg p-3 border border-border/60 bg-card">
             <div className="flex items-center gap-2 mb-1">
@@ -264,7 +264,10 @@ export default function SubAgentsPage() {
 
                     {/* Stats row */}
                     <div className="flex items-center gap-3 mb-3">
-                      <SuccessRing rate={agent.successRate ?? 0} color={colors.primary} />
+                      {/* Token usage indicator */}
+                      <div className="w-10 h-10 rounded-full border-2 flex items-center justify-center text-[9px] font-mono" style={{ borderColor: colors.primary, color: colors.primary }}>
+                        {agent.tasksCompleted > 0 ? `${agent.tasksCompleted}` : '—'}
+                      </div>
                       <div className="flex-1 space-y-1.5">
                         <div className="flex items-center justify-between">
                           <span className="text-[10px] text-muted-foreground">Tasks</span>

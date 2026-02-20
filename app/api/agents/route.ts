@@ -123,7 +123,7 @@ function buildAgents(statusData: Record<string, unknown> | null) {
       model: latestSession?.model ?? 'claude-opus-4-6',
       lastUsed,
       tasksCompleted: agent.sessionsCount ?? 0,
-      successRate: agent.sessionsCount && agent.sessionsCount > 0 ? 95 : null,
+      successRate: null, // no failure tracking available from OpenClaw yet
       capabilities: [agent.id === (agentsData.defaultId ?? 'main') ? 'orchestrator' : 'agent'],
       heartbeatEnabled: hb?.enabled ?? false,
       heartbeatEvery: hb?.every ?? null,
