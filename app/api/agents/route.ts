@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server'
 import { execSync } from 'child_process'
+import { readFileSync } from 'fs'
+import { join } from 'path'
 
 let cache: { data: object[]; ts: number } | null = null
 const CACHE_TTL = 3_000
@@ -15,8 +17,30 @@ function runCLI(cmd: string): Record<string, unknown> | null {
   }
 }
 
-// Descriptions and capabilities are derived dynamically from agent config
-// Override by placing a description in the agent's workspace IDENTITY.md
+// Read session labels from agent session files
+function getSessionLabels(agentId: string): Record<string, { label?: string; spawnedBy?: string }> {
+  try {
+    const homedir = process.env.HOME || '/Users/zohairf'
+    const sessionsPath = join(homedir, '.openclaw', 'agents', agentId, 'sessions', 'sessions.json')
+    const data = JSON.parse(readFileSync(sessionsPath, 'utf-8'))
+    const labels: Record<string, { label?: string; spawnedBy?: string }> = {}
+    for (const [key, val] of Object.entries(data as Record<string, { label?: string; spawnedBy?: string }>)) {
+      labels[key] = { label: val.label, spawnedBy: val.spawnedBy }
+    }
+    return labels
+  } catch {
+    return {}
+  }
+}
+
+function describeTask(key: string, label?: string): string {
+  if (label) return label
+  if (key.includes(':cron:')) return 'Cron job'
+  if (key.includes(':subagent:')) return 'Subagent task'
+  if (key.includes(':discord:')) return 'Discord session'
+  if (key.includes(':main')) return 'Main session'
+  return 'Agent task'
+}
 
 function buildAgents(statusData: Record<string, unknown> | null) {
   const agentsData = (statusData?.agents ?? {}) as Record<string, unknown>
@@ -72,24 +96,22 @@ function buildAgents(statusData: Record<string, unknown> | null) {
       ? new Date(agent.lastUpdatedAt).toISOString()
       : null
 
+    // Read session labels for this agent
+    const sessionLabels = getSessionLabels(agent.id)
+
     // Build recent tasks from sessions (each session = one "task")
     const recentTasks = agentSessions.slice(0, 5).map((s, i) => {
-      const isError = false // no error info in session summary
+      const meta = sessionLabels[s.key]
       return {
         id: `${s.agentId}-session-${i}`,
         timestamp: new Date(s.updatedAt).toISOString(),
-        description: s.key.includes(':cron:')
-          ? 'Cron job execution'
-          : s.key.includes(':main')
-            ? 'Direct session interaction'
-            : s.key.includes(':subagent:')
-              ? 'Subagent task'
-              : 'Agent task',
-        status: isError ? 'error' : 'success' as 'success' | 'error' | 'running',
+        description: describeTask(s.key, meta?.label),
+        status: 'success' as 'success' | 'error' | 'running',
         durationMs: 0,
         tokensUsed: s.totalTokens ?? 0,
         sessionKey: s.key,
         model: s.model ?? null,
+        spawnedBy: meta?.spawnedBy ?? null,
       }
     })
 
