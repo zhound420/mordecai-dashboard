@@ -21,8 +21,8 @@ Built with Next.js 16, React 19, Tailwind v4, and shadcn/ui.
 ## Quick start
 
 ```bash
-git clone https://github.com/zhound420/mordecai-dashboard
-cd mordecai-dashboard
+git clone https://github.com/zhound420/openclaw-agent-dashboard
+cd openclaw-agent-dashboard
 npm install
 cp .env.example .env.local
 # edit .env.local
